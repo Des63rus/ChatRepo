@@ -81,7 +81,7 @@ public class MyService extends Service implements Runnable {
 
                             }
 
-                            mActivity.dowloadUsers();
+                            mActivity.refresh();
                             
                         }
 

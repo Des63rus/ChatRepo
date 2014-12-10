@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+// dddddddd
 
 public class MainActivity extends Activity implements ServiceConnection, LocationListener {
     private ListView lvChat;
