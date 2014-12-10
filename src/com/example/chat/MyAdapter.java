@@ -1,9 +1,11 @@
 package com.example.chat;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,18 +19,18 @@ public class MyAdapter extends android.widget.BaseAdapter {
     private Context mContext;
 
 
-    Vector<Message> messageVector;
+
     RelativeLayout rl;
 
     public MyAdapter(Context mContext) {
         this.mContext = mContext;
-        messageVector = Singleton.getInstance().getMessageVector();
+
 
     }
 
     @Override
     public int getCount() {
-        return messageVector.size();
+        return Singleton.getInstance().getMessageVector().size();
     }
 
     @Override
@@ -51,15 +53,15 @@ public class MyAdapter extends android.widget.BaseAdapter {
 
 
         TextView tvMass = (TextView) rl.findViewById(R.id.tvMass);
-        tvMass.setText(messageVector.get(i).getFrom() + ": "+ messageVector.get(i).getMessage());
+        tvMass.setText(Singleton.getInstance().getMessageVector().get(i).getFrom() + ": "+ Singleton.getInstance().getMessageVector().get(i).getMessage());
 
 
         TextView tvFrom = (TextView) rl.findViewById(R.id.tvFrom);
-        tvFrom.setText("TO: "+ messageVector.get(i).getTo());
+        tvFrom.setText("TO: "+ Singleton.getInstance().getMessageVector().get(i).getTo());
 
 
         TextView tvTime = (TextView) rl.findViewById(R.id.tvTime);
-        tvTime.setText(messageVector.get(i).getDate().toString().substring(11,16));
+        tvTime.setText(Singleton.getInstance().getMessageVector().get(i).getDate().toString().substring(11,16));
 
 
 
@@ -68,12 +70,6 @@ public class MyAdapter extends android.widget.BaseAdapter {
     }
 
 
-    public Vector<Message> getMessageVector() {
-        return messageVector;
-    }
 
-    public void setMessageVector(Vector<Message> messageVector) {
-        this.messageVector = messageVector;
-    }
 
 }

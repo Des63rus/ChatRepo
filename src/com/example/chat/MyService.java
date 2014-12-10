@@ -2,11 +2,14 @@ package com.example.chat;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +19,7 @@ import java.util.Vector;
  * Created by User on 25.11.2014.
  */
 public class MyService extends Service implements Runnable {
-    private Vector<Message> messageVector;
+    private  Vector<Message> messageVector;
     private int timeUpdate=5000;
     private String login;
 
@@ -43,18 +46,14 @@ public class MyService extends Service implements Runnable {
     public void run() {
         while (true) {
             if (mActivity != null) {
-            mActivity = getmActivity();
-            messageVector =Singleton.getInstance().getMessageVector();
-            try {
-                Thread.sleep(timeUpdate);
+                mActivity = getmActivity();
 
+                try {
+                    Thread.sleep(5000);
 
-
-            } catch (Exception e) {
-                System.out.println("connect/online: "+e);
-            }
-
-
+                } catch (Exception e) {
+                    System.out.println("connect/online: "+e);
+                }
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("CHAT");
                 query.whereEqualTo("TO", login);
                 query.findInBackground(new FindCallback<ParseObject>() {
@@ -72,7 +71,7 @@ public class MyService extends Service implements Runnable {
                                             true,
                                             new Date()
                                     );
-                                    messageVector.add(message);
+                                    Singleton.getInstance().getMessageVector().add(message);
 
 
                                     parseObject.put("READ", true);
@@ -82,7 +81,7 @@ public class MyService extends Service implements Runnable {
                             }
 
                             mActivity.refresh();
-                            
+
                         }
 
 

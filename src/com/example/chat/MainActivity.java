@@ -12,15 +12,32 @@ import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-import com.parse.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
-// dddddddd
 
 public class MainActivity extends Activity implements ServiceConnection, LocationListener {
     private ListView lvChat;
@@ -84,7 +101,7 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
         lvChat.setAdapter(myAdapter);
 
         Intent intent = getIntent();
-        login = intent.getStringExtra("login").trim();
+        login = Singleton.getInstance().getUser().getUsername();
 
 
 
@@ -101,7 +118,7 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
 
         setLocation();
 
-        ParsePush.subscribeInBackground("chatLogin"+Singleton.getInstance().getUser().getUsername());
+
 
     }
 
@@ -148,9 +165,11 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
                         // TODO Auto-generated method stub
                         if (arg0 == null) {
                             Singleton.getInstance().getMessageVector().add(new Message(login, to, message, true, new Date()));
-                            lvChat.invalidateViews();
+
                             System.out.println("Everything is OK");
-                            push(Singleton.getInstance().getUser().getUsername().toString(), to);   /// send Push
+                            push(Singleton.getInstance().getUser().getUsername().toString(), to);
+                            lvChat.invalidateViews();
+                            /// send Push
                         } else {
                             System.out.println(arg0);
                         }
@@ -325,11 +344,11 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                        to = Singleton.getInstance().getUsersVector().get(i).getUsername().toString();
-                        userToIndex = i;
+                to = Singleton.getInstance().getUsersVector().get(i).getUsername().toString();
+                userToIndex = i;
 
-                        return;
-                    }
+                return;
+            }
 
 
 

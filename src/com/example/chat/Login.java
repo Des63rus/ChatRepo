@@ -6,11 +6,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 
 // This is test commit to push000
@@ -41,6 +50,13 @@ public class Login extends Activity {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("login", login);
                     startActivity(intent);
+                    ParsePush.subscribeInBackground("chatLogin" + login, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e!=null)
+                                System.out.println("subScr error "+e.getMessage());
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Неверно введён логин/пароль", Toast.LENGTH_SHORT).show();
@@ -60,7 +76,6 @@ public class Login extends Activity {
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
