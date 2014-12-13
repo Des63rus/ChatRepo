@@ -1,6 +1,8 @@
 package com.example.chat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Vector;
 
@@ -17,7 +26,6 @@ import java.util.Vector;
 public class MyAdapter extends android.widget.BaseAdapter {
 
     private Context mContext;
-
 
 
     RelativeLayout rl;
@@ -53,23 +61,72 @@ public class MyAdapter extends android.widget.BaseAdapter {
 
 
         TextView tvMass = (TextView) rl.findViewById(R.id.tvMass);
-        tvMass.setText(Singleton.getInstance().getMessageVector().get(i).getFrom() + ": "+ Singleton.getInstance().getMessageVector().get(i).getMessage());
+        tvMass.setText(Singleton.getInstance().getMessageVector().get(i).getFrom() + ": " + Singleton.getInstance().getMessageVector().get(i).getMessage());
 
 
         TextView tvFrom = (TextView) rl.findViewById(R.id.tvFrom);
-        tvFrom.setText("TO: "+ Singleton.getInstance().getMessageVector().get(i).getTo());
+        tvFrom.setText("TO: " + Singleton.getInstance().getMessageVector().get(i).getTo());
 
 
         TextView tvTime = (TextView) rl.findViewById(R.id.tvTime);
-        tvTime.setText(Singleton.getInstance().getMessageVector().get(i).getDate().toString().substring(11,16));
+        tvTime.setText(Singleton.getInstance().getMessageVector().get(i).getDate().toString().substring(11, 16));
 
+        final ImageView ivAva = (ImageView) rl.findViewById(R.id.ivAvaChat);
+        for (int x = 0; x < Singleton.getInstance().getUsersVector().size(); x++) {
+            if (Singleton.getInstance().getUsersVector().get(i).getUsername().equals(Singleton.getInstance().getMessageVector().get(i).getFrom())) {
+                ParseFile imageFile = (ParseFile) Singleton.getInstance().getUsersVector().get(i).get("image");
+                imageFile.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] bytes, ParseException e) {
+                        if (e == null) {
+                            Bitmap bmp = BitmapFactory
+                                    .decodeByteArray(
+                                            bytes, 0,
+                                            bytes.length);
+                            // Set the Bitmap into the
+                            // ImageView
+                            ivAva.setImageBitmap(bmp);
+                        } else {
+                            // something went wrong
+                        }
+                    }
+                });
 
+            }
+
+        }
+
+        if (Singleton.getInstance().getMessageVector().get(i).getFrom().equals(Singleton.getInstance().getUser().getUsername())) {
+            ParseFile imageFile = (ParseFile) Singleton.getInstance().getUser().get("image");
+            imageFile.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] bytes, ParseException e) {
+                    if (e == null) {
+                        Bitmap bmp = BitmapFactory
+                                .decodeByteArray(
+                                        bytes, 0,
+                                        bytes.length);
+                        // Set the Bitmap into the
+                        // ImageView
+                        ivAva.setImageBitmap(bmp);
+                    } else {
+                        // something went wrong
+                    }
+                }
+            });
+
+        }
 
         return rl;
-
     }
 
 
 
 
+
+
 }
+
+
+
+
