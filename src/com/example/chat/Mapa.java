@@ -27,7 +27,8 @@ public class Mapa extends Activity {
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.getController().setZoom(16);
-        geoPoint = new GeoPoint(31.9158, 34.768097);
+        geoPoint = new GeoPoint(Singleton.getInstance().getUser().getParseGeoPoint("location").getLatitude(),
+                                Singleton.getInstance().getUser().getParseGeoPoint("location").getLongitude());
         mapView.getController().setCenter(geoPoint);
 
         Vector<OverlayItem> overlayItemVector = new Vector<OverlayItem>();
