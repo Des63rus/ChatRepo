@@ -47,4 +47,13 @@ public class Singleton {
     public Vector<ParseUser> getUsersVector() {
         return usersVector;
     }
+
+    public int getUserIndex(String name){
+        for (int i = 0; i< usersVector.size(); i++){
+            if (usersVector.get(i).getUsername().equals(name)){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

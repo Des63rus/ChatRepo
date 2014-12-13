@@ -93,14 +93,18 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
         lvChat = (ListView) findViewById(R.id.listView);
         myAdapter = new MyAdapter(getApplicationContext());
         lvChat.setAdapter(myAdapter);
 
         Intent intent = getIntent();
+        String to = intent.getStringExtra("name");
+        if (to!=null){
+            int t = Singleton.getInstance().getUserIndex(to);
+            if(t!=-1) {
+                userToIndex = t;
+            }
+        }
         login = Singleton.getInstance().getUser().getUsername();
 
 
@@ -115,11 +119,8 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
         user = ParseUser.getCurrentUser();
         user.put("online", true);
         user.saveInBackground();
-
+        refreshUser();
         setLocation();
-
-
-
     }
 
     private void setLocation() {
@@ -158,7 +159,6 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
             massage.put("MESSAGE", message);
             massage.put("READ", false);
             massage.saveInBackground(new SaveCallback() {
-
                 @Override
                 public void done(ParseException arg0) {
                     try {
@@ -182,8 +182,6 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
         } else {
             Toast.makeText(getApplicationContext(), "Введите получятеля и логин", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
 
@@ -243,8 +241,6 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
     }
 
     public void dowloadUsers() {
-
-
         ParseQuery<ParseUser> userParseQuery = ParseUser.getQuery();
         userParseQuery.whereNotEqualTo("objectId", Singleton.getInstance().getUser().getObjectId());
         userParseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -268,7 +264,6 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
                             }
                         });
                     }
-
                     if (Singleton.getInstance().getUsersVector().size() != parseUsers.size()) {
                         Singleton.getInstance().getUsersVector().clear();
 
@@ -295,21 +290,16 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
 
                             }
                         }
-
                         if (flag == true) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     refreshUser();
                                     System.out.println("Rabotay SSUKA");
-
                                 }
                             });
-
                         }
                     }
-
-
                 }
             }
         });
@@ -325,13 +315,7 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
                 userLoginVector.add(Singleton.getInstance().getUsersVector().get(i).getUsername());
             } else {
                 userLoginVector.add(Singleton.getInstance().getUsersVector().get(i).getUsername() + " online");
-
-
             }
-
-
-
-
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_list_item_1, userLoginVector);

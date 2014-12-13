@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MotionEvent;
+import android.view.View;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -13,6 +14,8 @@ import java.util.List;
 public class MyItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
 
 	protected Context mContext;
+
+	private MainActivity mainActivity;
 
 	public MyItemizedOverlay(final Context context,
                              final List<OverlayItem> aList) {
@@ -31,6 +34,7 @@ public class MyItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
 		});
 		// TODO Auto-generated constructor stub
 		mContext = context;
+		//mainActivity = activity;
 	}
 
 	@Override
@@ -48,8 +52,14 @@ public class MyItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
 		dialog.setMessage(item.getSnippet());
 		dialog.show();*/
         Intent intent = new Intent(mContext, MainActivity.class);
-
+		intent.putExtra("name", item.getTitle());
+		intent.putExtra("latitude", item.getPoint().getLatitude());
+		intent.putExtra("longitude", item.getPoint().getLongitude());
         mContext.startActivity(intent);
+		/*Intent intentForFinish = new Intent();
+		intentForFinish.putExtra("name", item.getTitle());
+		intentForFinish.putExtra("latitude", item.getPoint().getLatitude());
+		intentForFinish.putExtra("longitude", item.getPoint().getLongitude());*/
 		return true;
 	}
 
