@@ -2,6 +2,7 @@ package com.example.chat;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.MotionEvent;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -42,10 +43,13 @@ public class MyItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
 			final OverlayItem item, final MapView mapView) {
 		// Toast.makeText(mContext, "Item " + index + " has been tapped!",
 		// Toast.LENGTH_SHORT).show();
-		AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+		/*AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
 		dialog.setTitle(item.getTitle());
 		dialog.setMessage(item.getSnippet());
-		dialog.show();
+		dialog.show();*/
+        Intent intent = new Intent(mContext, MainActivity.class);
+
+        mContext.startActivity(intent);
 		return true;
 	}
 
