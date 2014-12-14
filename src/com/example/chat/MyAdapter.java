@@ -101,9 +101,7 @@ public class MyAdapter extends android.widget.BaseAdapter {
             }
 
             return rl;
-
         }
-
         for (int x = 0; x < Singleton.getInstance().getUsersVector().size(); x++) {
             if (Singleton.getInstance().getUsersVector().get(x).getUsername().equals(Singleton.getInstance().getMessageVector().get(i).getFrom())) {
 
@@ -129,7 +127,6 @@ public class MyAdapter extends android.widget.BaseAdapter {
                 } else {
                     ivAva.setImageResource(R.drawable.ic_launcher);
                 }
-
             }
 
         }
