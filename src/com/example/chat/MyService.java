@@ -21,7 +21,6 @@ import java.util.Vector;
 public class MyService extends Service implements Runnable {
     private  Vector<Message> messageVector;
     private int timeUpdate=5000;
-    private String login;
 
 
     public void setmActivity(MainActivity mActivity) {
@@ -38,7 +37,7 @@ public class MyService extends Service implements Runnable {
     @Override
     public void onCreate() {
         super.onCreate();
-        login=Singleton.getInstance().getUser().getUsername().toString();
+
 
     }
 
@@ -55,7 +54,7 @@ public class MyService extends Service implements Runnable {
                     System.out.println("connect/online: "+e);
                 }
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("CHAT");
-                query.whereEqualTo("TO", login);
+                query.whereEqualTo("TO", Singleton.getInstance().getUser().getUsername());
                 query.findInBackground(new FindCallback<ParseObject>() {
                     public void done(List<ParseObject> scoreList, ParseException e) {
                         if (e == null) {

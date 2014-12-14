@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -57,6 +58,12 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
     private LocationManager locationManager;
     private Location location;
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(this);
+    }
 
     public void push(String pushFrom, String pushTo) {
         JSONObject data;
@@ -113,7 +120,7 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
 
         Intent intentServ = new Intent(this, MyService.class);
         startService(intentServ);
-        bindService(intentServ, this, 0);
+        bindService(intentServ, this, BIND_AUTO_CREATE);
         dowloadUsers();
 
         user = ParseUser.getCurrentUser();
@@ -206,7 +213,7 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
             return true;
         }
         if (id == R.id.clean) {
-            messageVector.clear();
+            Singleton.getInstance().getMessageVector().clear();
             lvChat.invalidateViews();
 
             return true;
@@ -217,6 +224,18 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
 
             return true;
         }
+            if (id == R.id.logOut) {
+                ParseUser.logOut();
+                Singleton.getInstance().getUser();
+
+                this.getSharedPreferences("configur", MODE_PRIVATE).edit().clear().commit();
+                ParsePush.unsubscribeInBackground("chatLogin" + login);
+
+                startActivity(new Intent(getApplicationContext(), Login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                return true;
+            }
+
+
 
         return super.onOptionsItemSelected(item);
     }

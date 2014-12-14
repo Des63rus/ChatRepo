@@ -26,7 +26,7 @@ public class MyReceiver extends BroadcastReceiver {
             Toast.makeText(context, action + " " + channel + "  " + name,
                     Toast.LENGTH_LONG).show();
 
-            Intent i = new Intent(context, MainActivity.class);
+            Intent i = new Intent(context, Login.class);
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, i, 0);
 
 

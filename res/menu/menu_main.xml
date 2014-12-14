@@ -17,4 +17,9 @@
         android:title="Найти на карте"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item
+        android:id="@+id/logOut"
+        android:title="Выход"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
 </menu>
