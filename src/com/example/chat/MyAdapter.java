@@ -72,9 +72,13 @@ public class MyAdapter extends android.widget.BaseAdapter {
         tvTime.setText(Singleton.getInstance().getMessageVector().get(i).getDate().toString().substring(11, 16));
 
         final ImageView ivAva = (ImageView) rl.findViewById(R.id.ivAvaChat);
-        for (int x = 0; x < Singleton.getInstance().getUsersVector().size(); x++) {
-            if (Singleton.getInstance().getUsersVector().get(i).getUsername().equals(Singleton.getInstance().getMessageVector().get(i).getFrom())) {
-                ParseFile imageFile = (ParseFile) Singleton.getInstance().getUsersVector().get(i).get("image");
+
+
+        if (Singleton.getInstance().getMessageVector().get(i).getFrom().equals(Singleton.getInstance().getUser().getUsername())) {
+
+            if (Singleton.getInstance().getUser().get("image") != null) {
+                ParseFile imageFile = (ParseFile) Singleton.getInstance().getUser().get("image");
+
                 imageFile.getDataInBackground(new GetDataCallback() {
                     @Override
                     public void done(byte[] bytes, ParseException e) {
@@ -92,41 +96,46 @@ public class MyAdapter extends android.widget.BaseAdapter {
                     }
                 });
 
+            } else {
+                ivAva.setImageResource(R.drawable.ic_launcher);
+            }
+
+            return rl;
+
+        }
+
+        for (int x = 0; x < Singleton.getInstance().getUsersVector().size(); x++) {
+            if (Singleton.getInstance().getUsersVector().get(x).getUsername().equals(Singleton.getInstance().getMessageVector().get(i).getFrom())) {
+
+                if (Singleton.getInstance().getUsersVector().get(x).get("image") != null) {
+                    ParseFile imageFile = (ParseFile) Singleton.getInstance().getUsersVector().get(x).get("image");
+                    imageFile.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] bytes, ParseException e) {
+                            if (e == null) {
+                                Bitmap bmp = BitmapFactory
+                                        .decodeByteArray(
+                                                bytes, 0,
+                                                bytes.length);
+                                // Set the Bitmap into the
+                                // ImageView
+                                ivAva.setImageBitmap(bmp);
+                            } else {
+                                System.out.println("parseFOTO EX" + e );
+                            }
+                        }
+                    });
+
+                } else {
+                    ivAva.setImageResource(R.drawable.ic_launcher);
+                }
+
             }
 
         }
-
-        if (Singleton.getInstance().getMessageVector().get(i).getFrom().equals(Singleton.getInstance().getUser().getUsername())) {
-            ParseFile imageFile = (ParseFile) Singleton.getInstance().getUser().get("image");
-            imageFile.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, ParseException e) {
-                    if (e == null) {
-                        Bitmap bmp = BitmapFactory
-                                .decodeByteArray(
-                                        bytes, 0,
-                                        bytes.length);
-                        // Set the Bitmap into the
-                        // ImageView
-                        ivAva.setImageBitmap(bmp);
-                    } else {
-                        // something went wrong
-                    }
-                }
-            });
-
-        }
-
         return rl;
     }
-
-
-
-
-
-
 }
-
 
 
 
