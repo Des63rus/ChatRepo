@@ -3,7 +3,6 @@ package com.example.chat;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,6 @@ import android.widget.TextView;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.Vector;
 
 /**
  * Created by User on 25.11.2014.
@@ -128,6 +122,7 @@ public class MyAdapter extends android.widget.BaseAdapter {
                     ivAva.setImageResource(R.drawable.ic_launcher);
                 }
             }
+
 
         }
         return rl;

@@ -17,6 +17,12 @@
         android:title="Найти на карте"
         android:orderInCategory="100"
         android:showAsAction="never" />
+
+    <item
+        android:id="@+id/contact"
+        android:title="Контакты"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
     <item
         android:id="@+id/logOut"
         android:title="Выход"

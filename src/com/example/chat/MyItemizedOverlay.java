@@ -1,10 +1,9 @@
 package com.example.chat;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MotionEvent;
-import android.view.View;
+
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -70,7 +69,6 @@ public class MyItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
 		//GeoPoint gp = (GeoPoint) mapView.getProjection().fromPixels(x,y);
 		return super.onSingleTapUp(e, mapView);
 	}
-
 
 
 }

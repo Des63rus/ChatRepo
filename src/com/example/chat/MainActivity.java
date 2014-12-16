@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -36,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 
@@ -208,10 +206,17 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
+            startActivity(new Intent(getApplicationContext(), setting.class));
 
             return true;
         }
+
+        if (id == R.id.contact) {
+            startActivity(new Intent(getApplicationContext(), contactlist.class));
+
+            return true;
+        }
+
         if (id == R.id.clean) {
             Singleton.getInstance().getMessageVector().clear();
             lvChat.invalidateViews();
@@ -220,7 +225,10 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
         }
 
         if (id == R.id.findMap) {
-            startActivity(new Intent(getApplicationContext(), Mapa.class));
+            Intent intent = new Intent(getApplicationContext(), Mapa.class);
+            intent.putExtra("latitude", Singleton.getInstance().getUser().getParseGeoPoint("location").getLatitude());
+            intent.putExtra("longitude", Singleton.getInstance().getUser().getParseGeoPoint("location").getLongitude());
+            startActivity(intent);
 
             return true;
         }
@@ -354,8 +362,6 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
             }
 
 
-
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 to = Singleton.getInstance().getUsersVector().get(0).getUsername();
@@ -392,6 +398,14 @@ public class MainActivity extends Activity implements ServiceConnection, Locatio
 
     @Override
     public void onProviderDisabled(String s) {
+
+    }
+
+    public void sound() {
+        Vibrator v = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.drawable.alertnote);
+        mediaPlayer.start();
+        v.vibrate(500);
 
     }
 }

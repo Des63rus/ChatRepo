@@ -2,14 +2,12 @@ package com.example.chat;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.IBinder;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -19,8 +17,8 @@ import java.util.Vector;
  * Created by User on 25.11.2014.
  */
 public class MyService extends Service implements Runnable {
-    private  Vector<Message> messageVector;
-    private int timeUpdate=5000;
+    private Vector<Message> messageVector;
+    private int timeUpdate = 5000;
 
 
     public void setmActivity(MainActivity mActivity) {
@@ -51,7 +49,7 @@ public class MyService extends Service implements Runnable {
                     Thread.sleep(5000);
 
                 } catch (Exception e) {
-                    System.out.println("connect/online: "+e);
+                    System.out.println("connect/online: " + e);
                 }
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("CHAT");
                 query.whereEqualTo("TO", Singleton.getInstance().getUser().getUsername());
@@ -75,6 +73,7 @@ public class MyService extends Service implements Runnable {
 
                                     parseObject.put("READ", true);
                                     parseObject.saveInBackground();
+                                    mActivity.sound();
                                 }
 
                             }
@@ -86,7 +85,7 @@ public class MyService extends Service implements Runnable {
 
                     }
 
-                } );
+                });
             }
 
 
@@ -101,11 +100,6 @@ public class MyService extends Service implements Runnable {
         return new MyBinding(this);
 
     }
-
-
-
-
-
 
 
     public MainActivity getmActivity() {

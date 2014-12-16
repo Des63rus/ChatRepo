@@ -1,9 +1,11 @@
 package com.example.chat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -27,8 +29,13 @@ public class Mapa extends Activity {
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.getController().setZoom(16);
-        geoPoint = new GeoPoint(Singleton.getInstance().getUser().getParseGeoPoint("location").getLatitude(),
-                                Singleton.getInstance().getUser().getParseGeoPoint("location").getLongitude());
+
+        Intent intent = getIntent();
+        geoPoint = new GeoPoint(intent.getDoubleExtra("latitude", 51), intent.getDoubleExtra("longitude", 51));
+
+
+        //geoPoint = new GeoPoint(Singleton.getInstance().getUser().getParseGeoPoint("location").getLatitude(),
+        //Singleton.getInstance().getUser().getParseGeoPoint("location").getLongitude());
         mapView.getController().setCenter(geoPoint);
 
         Vector<OverlayItem> overlayItemVector = new Vector<OverlayItem>();
